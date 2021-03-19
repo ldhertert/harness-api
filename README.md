@@ -14,6 +14,13 @@ Requires: NodeJS v12+
 * Run `npm install`
 * Run `node index.js`
 
+Or running in docker:
+
+```sh
+docker build -t harness-api .
+docker run -p 3000:3000 -d harness-api
+```
+
 # API Details and usage:
 
 There are a handful of common parameters that can be provided in
