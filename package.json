@@ -1,0 +1,21 @@
+{
+  "name": "harness-rest-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luke Hertert",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/router": "^10.0.0",
+    "@ldhertert/harness-cli": "^0.9.15",
+    "basic-auth": "^2.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-jwt": "^4.0.0",
+    "stdout-stderr": "^0.1.13"
+  }
+}
