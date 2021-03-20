@@ -3,7 +3,7 @@ const cli = require('../cli-wrapper');
 
 const router = new Router()
 
-router.get('/config-as-code/list-files', async (ctx, next) => {
+router.get('/yaml', async (ctx, next) => {
     const args = ctx.state.harness.globals
     args.harnessUsername = ctx.state.harness.username
     args.harnessPassword = ctx.state.harness.password
@@ -11,23 +11,25 @@ router.get('/config-as-code/list-files', async (ctx, next) => {
     ctx.body = JSON.parse(text)
 })
 
-router.get('/config-as-code/get', async (ctx, next) => {
+router.get(/^\/yaml\/(.+)\.yaml$/, async (ctx, next) => {
     const args = ctx.state.harness.globals
     args.harnessUsername = ctx.state.harness.username
     args.harnessPassword = ctx.state.harness.password
-    if (ctx.query.raw === 'true') {
-        args.raw = ''
-    }
-    args.path = `${ctx.query.path}`
+    args.path = `${ctx.params[0]}.yaml`
     var text = await cli.runCommand('config-as-code:get', args)
     try {
-        ctx.body = JSON.parse(text)
+        const content = JSON.parse(text)
+        if (ctx.accepts('json')) { 
+            ctx.body = content
+        } else {
+            ctx.body = content[0].content
+        }
     } catch {
         ctx.body = text
     }
 })
 
-router.post('/config-as-code/upsert', async (ctx, next) => {
+router.put('/yaml', async (ctx, next) => {
     const args = ctx.state.harness.globals
     args.harnessUsername = ctx.state.harness.username
     args.harnessPassword = ctx.state.harness.password

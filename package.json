@@ -16,6 +16,8 @@
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-jwt": "^4.0.0",
+    "koa-static": "^5.0.0",
+    "serverless-http": "^2.7.0",
     "stdout-stderr": "^0.1.13"
   },
   "repository": "https://github.com/ldhertert/harness-api"

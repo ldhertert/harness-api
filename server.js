@@ -3,6 +3,7 @@ const Router = require('@koa/router');
 const jwt = require('jsonwebtoken')
 const bodyParser = require('koa-bodyparser');
 var basicAuth = require('basic-auth')
+const serverless = require('serverless-http');
 
 const authRoutes = require('./routes/auth')
 const staticRoutes = require('./routes/static')
@@ -67,6 +68,20 @@ privateRoutesToUse.forEach(router => {
     privateRoutes.use(router.allowedMethods())
 })
 
+app.use(async (ctx, next) => {
+    try {
+      await next();
+    } catch (err) {
+      // will only respond with JSON
+      ctx.status = err.statusCode || err.status || 500;
+      ctx.body = {
+          errors: [{
+            message: err.message
+          }]
+      };
+    }
+  })
+
 app
     .use(publicRoutes.routes())
     .use(publicRoutes.allowedMethods())
@@ -77,5 +92,7 @@ module.exports = {
     start: (port) => {
         app.listen(port);
         return app
-    }
+    },
+    app: app,
+    serverless: serverless(app)
 }
